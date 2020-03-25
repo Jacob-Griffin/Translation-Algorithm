@@ -1,0 +1,18 @@
+#####################
+#!title:JavaToC++
+#####################
+
+#Operators are the same
+#Format is the same
+
+#Keywords
+replace /import/g "include"
+
+#Library names
+replace /Java\.util\.Scanner;/g "<istream>\ninclude <ifstream>"
+replace /Java\.util\.concurrent(\..+)?;/g "<thread>"
+replace /include Java\.util\.function;/g
+replace /include Java\.util\.jar;/g
+replace /Java\.util\.regex;/g "<regex>"
+replace /Java\.util\.(vector)|(ArrayList);/g "<vector>"
+replace /Java\.util\.date/g "<"

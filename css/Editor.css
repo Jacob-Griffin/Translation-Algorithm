@@ -1,0 +1,72 @@
+#divider{
+  background-color: #222;
+  width: 25px;
+  height: 100%;
+  margin:0;
+  padding:0;
+  position: relative;
+  float: left;
+  border-left: 2px #1d1d1d solid;
+  border-right: 2px #1d1d1d solid; 
+}
+
+#SMOLInput{
+  margin:0;
+  padding:0;
+  height:100%;
+  width: 40%;
+  position: relative;
+  display: flex;
+  float: left;
+}
+
+.TextInputOutput{
+  margin:0;
+  padding:0;
+  height:calc(50% - 12.5px);
+  width:calc(60% - 25px);
+  position: relative;
+  display: flex;
+}
+
+.IOTitle{
+  margin:0;
+  padding:0;
+  height: 25px;
+  width: calc(60% - 25px);
+  background-color: #1c1c1c;
+  position: relative;
+  display: flex;
+  float: left;
+  color: #DDD;
+}
+
+#EditorZone{
+  width: 98vw;
+  height: 75vh;
+  margin:auto;
+  margin-bottom: 1em;
+  border: 2px #1d1d1d solid;
+  border-radius: 2px;
+}
+
+#optionsSection{
+  text-align: center;
+  margin: auto;
+}
+
+#inputLabel{
+  text-align: center;
+  margin: auto;
+  width: 150px;
+  margin-top: 1em;
+}
+
+.noselection .ace_marker-layer .ace_selection {
+   background: transparent;
+   border: 0px transparent;
+}
+
+.noselection .ace_cursor {
+   color: transparent;
+}

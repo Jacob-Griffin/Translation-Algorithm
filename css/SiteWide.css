@@ -1,0 +1,78 @@
+body{
+  background-color: #242a30;
+  color:#EEE;
+}
+
+nav{
+  background-color:#222;
+}
+
+h1{
+  padding-left: 1vw;
+  font-size: 36pt;
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  margin-top: .25em;
+  margin-bottom: .25em;
+}
+
+h2{
+  font-size: 28pt;
+  font-family: 'Source Sans Pro';
+  font-weight: 500;
+}
+
+h3{
+  font-size: 18pt;
+  font-family: 'Source Sans Pro';
+  font-weight: 800;
+}
+
+h4{
+  font-size: 14pt;
+  font-family: 'Open Sans';
+  font-weight: 800;
+}
+
+p,select,option{
+  font-size: 12pt;
+  font-family: 'Open Sans';
+}
+
+strong{
+  font-weight: 900;
+  color: #FFF;
+}
+
+.nav-link:hover{
+  background-color: #444;
+  border-radius: 5px;
+}
+
+.navbar-right{
+  text-align: right;
+}
+
+.btn{
+  font-family: 'Open Sans';
+  font-size: 12pt;
+}
+
+.btn-primary,.btn-group,.card{
+  background-color: #7289DA;
+  border-color: #7087D8;
+}
+
+.btn-primary:hover,.btn-group:hover,.card:hover{
+  background-color: #5e77d4;
+  border-color: #5c75d2;
+}
+
+.btn-group{
+  border-radius: 3px;
+}
+
+div{
+  border-collapse: separate;
+  border-spacing: 0px;
+}

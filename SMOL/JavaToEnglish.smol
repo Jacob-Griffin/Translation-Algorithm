@@ -1,0 +1,156 @@
+#######################
+#!title:JavaToEnglish
+#######################
+
+#Formatting
+replace /([^\s+-/*=><]+)/g  "$1 "
+replace /\s+/g  
+replace /^\s+/gm 
+replace /([+-\/*=]\s*)\-\s*([0-9]+)/g "$1 negative $2"
+
+#Comments
+replace /\s*\/\*(.+?)\*\//g "($1)"
+replace /\/\/(.+?)$/gm "($1)"
+
+########################
+# Control Structures
+########################
+
+# If Statement
+replace /if\s*\((.+?)\)\s*{\s*(.+?)}/gs "If $1, do the following:\n\t$2\n"
+replace /if\s*\((.+?)\)\s*(.+?);/gs "If $1, $2."
+
+# Do While
+replace /do\s*{\s*(.+?)}\s*while\((.+?)\)/gs "Do the following while $2:\n\t$1"
+replace /do\s+(.+?)\s*;\s*while\s*\((.+?)\)\s*;/gs "$1 while $2."
+
+# While Statement
+replace /while\s*\((.+?)\)\s*{\s*(.+?)}/gs "While $1, do the following:\n\t$2\n"
+replace /while\s*\((.+?)\)\s*(.+?);/gs "While $1, $2."
+
+# For Statement
+replace /for\s*\((.+?);(.+?);(.+?)\)\s*{\s*(.+?)}/gs "$1. While $2, do the following, and $3 each time:\n\t$2\n"
+replace /for\s*\((.+?);(.+?);(.+?)\)\s*(.+?);/gs "$1. While $2, $4 then $3"
+
+# For Each Statement
+replace /for\s*\((.+?):(.+?)\)\s*{\s*(.+?)}/gs "For each $1 in $2, do the following:\n\t$2"
+replace /for\s*\((.+?):(.+?)\)\s*(.+?);/gs "For each $1 in $2, $3"
+
+########################
+# Function Definitions
+########################
+
+# Non-static
+replace /((?:public)|(?:private)|(?:protected))\s+(\S+?)\s+(\S+?)\((.+?)\)\s*{\s*(.+?)}/gs "• A $1 function called "$3" that returns $2 and takes the following arguments: $4.\n\tIt does the following:\n\t$5\n"
+
+# Static
+replace /((?:public)|(?:private)|(?:protected))\s+static\s+(\S+?)\s+(\S+?)\((.+?)\)\s*{\s*(.+?)}/gs "• A $1, static function called "$3" that returns $2 and takes the following arguments: $4.\n\tIt does the following:\n\t$5\n"
+
+#####################
+# Class Definitions
+#####################
+
+# Make sure class definitions are on new lines
+replace /((?:public)|(?:private)|(?:protected))?\s*class.+?$/gms "\n$&"
+
+# Plain
+replace /^\s*class\s+(\S+?)\s*{(.+?)}/gms "There is a class called $1 that has:\n$2"
+
+# Access Modifiers
+replace /^\s*(\S+)\s+class\s+(\S+?)\s*{(.+?)}/gms "There is a $1 class called $2 that has:\n$3"
+
+# Child Classes
+replace /^\s*class\s+(\S+?)\s+((?:extends)|(?:implements))\s+(\S+)\s*{(.+?)}/gms "There is a class called $1 that $2 $3 that has:\n$4"
+
+# Access Modifiers on Child Classes
+replace /^\s*(\S+)\s+class\s+(\S+?)\s+((?:extends)|(?:implements))\s+(\S+)\s*{(.+?)}/gms "There is a $1 class called $2 that $3 $4 that has:\n$5"
+
+########################################
+# Data Types and Variable Definitions
+########################################
+
+# Define primitive or wrapper variable
+replace /^\s*(\S+)\s+(\S+)\s*=\s*(.+?)$/gm "$2 is an $1 equal to $3"
+
+# Array type
+replace /(\S+)\s*\[\]/g "$1 array"
+
+##################################
+# Fix argument Lists
+##################################
+
+# Beginning/middle of list
+replace /(:|,) ([^:,]+?)\s*(\S+) (?=,)/g "$1 a $2 called \"$3\""
+
+# End of list
+replace /, ([^:,]+?)\s*(\S+)(?=\.$)/gm ", and an $1 called \"$2\""
+
+# Single Item list vowel
+replace /the following arguments: ([^:,]+?)\s*(\S+)(?=\.$)/gm "a $1 called "$2" as an argument"
+
+###################
+# Operators
+###################
+
+# Increment Decrement
+replace /([;{}]\s*)(\S+)\s*\+\+/gm "$1Increment $2"
+replace /(\S+)\s*\+\+/g "increment $1"
+replace /(^\s*)(\S+)\s*\-\-/gm "$1Decrement $2"
+replace /(\S+)\s*\-\-/g "decrement $1"
+
+# Operators with equals
+replace /\+\=/g "is increased by"
+replace /\-\=/g "is decreased by"
+replace /\*\=/g "is multiplied by"
+replace /\/\=/g "is divided by"
+
+# Arithmetic Operators
+replace /\+/g "plus"
+replace /\-/g "minus"
+replace /\*/g "times"
+replace /\//g "divided by"
+
+# Comparisons
+replace /\=\=/g "is equal to"
+replace /\>\=/g "is greater than or equal to"
+replace /\<\=/g "is less than or equal to"
+replace /\>/g "is greater than"
+replace /\</g "is less than"
+
+# Assignment equals, Comes last to not break the above operators
+replace /^([^\s]+)\s*\=/gm "Set $1 equal to"
+replace /([^\s(){}]+)\s*\=/g "set $1 equal to"
+
+###################
+# Known Functions
+###################
+
+# println
+replace /([;{}]|^)(\s*)System\s*\.\s*out\s*\.\s*println\((.+?)\)/gm "$1$2Output $3"
+replace /System\s*\.\s*out\s*\.\s*println\s*\((.+?)\)/g "output $1"
+
+# print
+replace /([;{}]|^)(\s*)System\s*\.\s*out\s*\.\s*print\((.+?)\)/gm "$1$2Output $3"
+replace /System\s*\.\s*out\s*\.\s*print\s*\((.+?)\)/g "output $1"
+
+#######################
+# Miscellaneous
+#######################
+
+# Semicolon newline, becomes an end of sentence, newlines removed until end of block
+replace /\s*\;/g "."
+
+# Tabulate every line that isn't a bullet point or class definition
+replace /^([^\t][^•\n]+)$/gm "\t$1"
+replace /^\t(.+? class .+?)$/gm "$1"
+
+# Remove faulty tab and newline notation
+replace /\~\~t/g
+replace /\~\~n/g
+
+# Remove all whitespace at the end of the code
+replace /\s*$/
+
+# Fix a/an with vowels
+replace /a ([aeiouAEIOU])(?!s )/g "an $1"
+replace /A ([aeiouAEIOU])(?!s )/g "An $1"

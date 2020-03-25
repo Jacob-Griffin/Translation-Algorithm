@@ -1,0 +1,45 @@
+#CodeHolder{
+  width: 98vw;
+  height: 70vh;
+  margin:auto;
+  margin-bottom: 1em;
+  border: 2px #1d1d1d solid;
+  border-radius: 2px;
+}
+
+.CodeIO{
+  width: calc(50% - 12.5px);
+  height: 100%;
+  min-height: 400px;
+  position: relative;
+  display:flex;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  float:left;
+}
+
+#divider{
+  background-color: #222;
+  width: 25px;
+  height: 100%;
+  margin:0;
+  padding:0;
+  display:flex;
+  float:left;
+  box-sizing:border-box;
+  border-left: 2px #1d1d1d solid;
+  border-right: 2px #1d1d1d solid; 
+}
+
+#languageCard{
+  width: 40vw !important;
+  min-width: 400px;
+  height: 110px;
+  text-align: center;
+  margin: auto;
+}
+
+html{
+  min-width: 750px;
+}

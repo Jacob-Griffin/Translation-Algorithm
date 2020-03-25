@@ -1,0 +1,10 @@
+#!title:Replace Example
+
+#Replace takes all matches and replaces them with the output string
+replace /hello/gi "goodbye"
+
+#An empty or ommited output string will simply delete the matched text
+replace /\[Delete This\]/g
+
+#Capture groups can be referenced using $(1-99)
+replace /(\S+) and (\S+)/g "$2 and $1"

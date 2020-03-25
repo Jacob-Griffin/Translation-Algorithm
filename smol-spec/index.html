@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>Code Translator | SMOL Specification</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="/css/SiteWide.css" rel="stylesheet" type="text/css" />
+    <link href="/css/Spec.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">Code Translator</a>
+      <div class="collapse navbar-collapse navbar-right">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/translate">Translate</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/smol-spec">SMOL Filetype<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/editor">SMOL Editor</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <h1>SMOL Specification</h1>
+    <div id="text-body">
+      <p>SMOL has very specific syntax with three major statments:</p>
+      <ul>
+        <li><span class="start-definition">Expression</span>: [method] /[pattern]/[flags] "[output]"</li>
+        <li><span class="start-definition">Comment</span>: #[Comment]</li>
+        <li><span class="start-definition">Metadata</span>: #![name]:[value]</li>
+      </ul>
+      <p>Only expressions are processed, and the rest are to make the file neat and accesible</p>
+      <h2>Expressions</h2>
+      <p>Expressions provide the core functionality of a SMOL file. They draw from a select list of methods:</p>
+
+      <div id="expressionAccordion">
+        <div class="card" data-toggle="collapse" data-target="#replaceText" aria-expanded="true" aria-controls="replaceText">
+          <div class="card-header" id="headingReplace">
+            <h4 class="mb-0">
+              replace
+            </h4>
+          </div>
+          <div id="replaceText" class="collapse" aria-labelledby="headingReplace" data-parent="#expressionAccordion">
+            <div class="card-body bg-dark">
+              Performs a string replacement by matching the provided pattern, then replacing it with the output string. Capture groups can be used in the output string using $(1-99).<br>
+              <a href="/editor/?ex=replace" target="_blank">Example</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card"data-toggle="collapse" data-target="#listText" aria-expanded="false" aria-controls="listText">
+          <div class="card-header" id="headingList">
+            <h4 class="mb-0">
+              list
+            </h4>
+          </div>
+          <div id="listText" class="collapse" aria-labelledby="headingList" data-parent="#expressionAccordion">
+            <div class="card-body bg-dark">
+              Lists all matches of the provided pattern, then concatenates all output strings. Unmatched text is ommitted from the final result. Capture groups can be used in the output string using $(1-99), and the full match can be used with the token '$0'.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-toggle="collapse" data-target="#reverseText" aria-expanded="false" aria-controls="reverseText">
+          <div class="card-header" id="headingReverse">
+            <h4 class="mb-0">
+              reverse
+            </h4>
+          </div>
+          <div id="reverseText" class="collapse" aria-labelledby="headingReverse" data-parent="#expressionAccordion">
+            <div class="card-body bg-dark">
+              Replaces all matches with the reverse of said match. Output string will be ignored.
+            </div>
+          </div>
+        </div>
+      </div><br>
+      <h2>Comments</h2>
+      <p>Comments start with '#' and continue to the end of the line.</p>
+      <h2>Metadata</h2>
+      <p>Metadata values have no influence on the string manipulation, but help with other formatting situations. There is only one metadata value currently:</p>
+      <div id="metadataAccordion">
+        <div class="card" data-toggle="collapse" data-target="#titleText" aria-expanded="true" aria-controls="titleText">
+          <div class="card-header" id="headingTitle">
+            <h4 class="mb-0">
+              title
+            </h4>
+          </div>
+
+          <div id="titleText" class="collapse" aria-labelledby="headingTitle" data-parent="#metadataAccordion">
+            <div class="card-body bg-dark">
+              Stores the name of the SMOL table. Serves as the filename when downloading and uploading from the editor, and the function name when compiling to a JavaScript file.
+            </div>
+          </div>
+        </div>
+      </div><br>
+    </div>
+  </body>
+</html>

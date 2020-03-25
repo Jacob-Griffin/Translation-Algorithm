@@ -1,0 +1,21 @@
+#########################
+#!title:RESTtoJavaScript
+#########################
+
+#Staments 
+#My string validation doesn't account for "", so I need a separate regex for each statement to handle it.
+#Empty Regex is intentionally left out as it matches either nothing or everything, neither of which are meaningful in the context of REST
+
+#Replace Statments
+replace /^replace\s+\/(.*?[^\\])\/([a-z]*)(?:\s+(""))/gm "input = restReplace(input,\"$1\",\"$2\",\"\");"
+replace /^replace\s+\/(.*?[^\\])\/([a-z]*)(?:\s+"(.*?[^\\])")?/gm "input = restReplace(input,\"$1\",\"$2\",\"$3\");"
+
+#List Statments
+replace /^list\s+\/(.*?[^\\])\/([a-z]*)(?:\s+(""))/gm "input = restList(input,\"$1\",\"$2\",\"\");"
+replace /^list\s+\/(.*?[^\\])\/([a-z]*)(?:\s+"(.*?[^\\])")?/gm "input = restList(input,\"$1\",\"$2\",\"$3\");"
+
+#Comments
+replace /\#/g "//"
+
+#Clean up, only include statements that got Transformed
+list /(^input = [a-zA-Z]+\(input,.*?,.*?,.*?\);\s*$)|(^\/\/.*$)/gm "$0\n"

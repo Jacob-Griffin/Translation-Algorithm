@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Code Translator</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="/css/Home.css" rel="stylesheet" type="text/css" />
+    <link href="/css/SiteWide.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">Code Translator</a>
+      <div class="collapse navbar-collapse navbar-right">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/translate">Translate</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/smol-spec">SMOL Filetype</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/editor">SMOL Editor</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <h1 class="centered centered-text">Code Translation Service</h1><br>
+    <p class="centered centered-text">Welcome. This is a code translation website developed by Jacob Griffin as a senior project. Code is processed through a series of regular expression replacements, and is converted to code of another language. In order to keep the expression sequences neat and commented, they are stored in a custom file type called SMOL (<strong>S</strong>tring <strong>M</strong>anipulation <strong>O</strong>peration <strong>L</strong>ist), specified <a href="/smol-spec">here</a>. If the SMOL format seems useful in any capacity, you can use the <a href="editor">editor</a> to write and test SMOLs.</p><br>
+
+    <p class="centered-text centered">This project is made possible with the <a href="https://ace.c9.io/">ACE code editor</a> and <a href="https://getbootstrap.com/">Bootstrap</a></p><br>
+    <div id="buttonHolder" class="centered">
+      <button class = "btn btn-primary" onclick="window.location += '/translate'">Start Translating</button>
+    </div>
+  </body>
+</html>

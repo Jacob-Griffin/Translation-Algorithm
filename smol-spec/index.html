@@ -79,6 +79,36 @@
           </div>
         </div>
       </div><br>
+      <p>Additionally, the SMOL filetype supports a limited amount of extended expressions that include control structures. All control structures are single line and only apply to that line's expression.<br>
+      <p>[control] /[condition]/[flags] [method] /[pattern]/[flags] "[output]"</p><br>
+      <div id="controlAccordion">
+        <div class="card" data-toggle="collapse" data-target="#ifText" aria-expanded="true" aria-controls="ifText">
+          <div class="card-header" id="headingIf">
+            <h4 class="mb-0">
+              if
+            </h4>
+          </div>
+          <div id="ifText" class="collapse" aria-labelledby="headingIf" data-parent="#controlAccordion">
+            <div class="card-body bg-dark">
+              Determines if there is a match for [condition] before doing the rest of the Expression.<br>
+              <a href="/editor/?ex=if" target="_blank">Example</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card"data-toggle="collapse" data-target="#whileText" aria-expanded="false" aria-controls="whileText">
+          <div class="card-header" id="headingWhile">
+            <h4 class="mb-0">
+              while
+            </h4>
+          </div>
+          <div id="whileText" class="collapse" aria-labelledby="headingWhile" data-parent="#controlAccordion">
+            <div class="card-body bg-dark">
+              Continuously does the rest of the expression until [condition] doesn't generate a match, or until the text stops changing.
+            </div>
+          </div>
+        </div>
+      </div><br>
       <h2>Comments</h2>
       <p>Comments start with '#' and continue to the end of the line.</p>
       <h2>Metadata</h2>

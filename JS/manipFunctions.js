@@ -1,10 +1,15 @@
 function smolReplace(input,pattern,flags,output){
-  output = output.replace(/\\n/g,"~~n");
-  output = output.replace(/\\t/g,"~~t");
-  input = input.replace(new RegExp(pattern,flags),output);
-  input = input.replace(new RegExp("~~t","g"),"\t");
-  input = input.replace(new RegExp("~~n","g"),"\n");
-  return input;
+  try{
+    output = output.replace(/\\n/g,"~~n");
+    output = output.replace(/\\t/g,"~~t");
+    input = input.replace(new RegExp(pattern,flags),output);
+    input = input.replace(new RegExp("~~t","g"),"\t");
+    input = input.replace(new RegExp("~~n","g"),"\n");
+    return input;
+  }
+  catch(err){
+    return input; //If there are any issues, pretend the line doesn't exist
+  }
 }
 
 function smolList(input,pattern,flags,output){

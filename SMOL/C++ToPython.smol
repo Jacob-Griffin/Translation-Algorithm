@@ -5,33 +5,163 @@
 #Remove libraries 
 replace /\#include.+$/gm 
 replace /using namespace.+$/gm 
+replace /std::/g
 
 #Format comments 
 replace /\/\/(.+)$/gm "\#$1;" 
 
+
 #Remove code formatting, make all whitespaces as small as possible 
 replace /\n/g "" 
 replace /(\s)+/g "$1" 
-replace /\s(\W)/g "$1" 
-replace /(\W)\s/g "$1" 
+while /./ replace /(;|\"|^)([^\"\#]+)\s(\W)/g "$1$2$3" 
+while /./ replace /(;|\"|^)([^\"\#]+)(\W)\s/g "$1$2$3" 
 
-#Make all increments into += 1; 
-replace /((a-zA-Z]+)\s?\+\+/ "$1+=1" 
-replace /\+\+\s?([a-zA-Z]+)/ "$1+=1" 
+#Make all increments into += 1 or -= 1 
+replace /;([^\#";]+)?([a-zA-Z]+)\+\+/gm ";$1$2+=1" 
+replace /;([^\#";]+)?\+\+([a-zA-Z]+)/gm ";$1$2+=1" 
+replace /;([^\#";]+)?((a-zA-Z]+)\s?\-\-/gm ";$1$2-=1" 
+replace /;([^\#";]+)?\-\-\s?([a-zA-Z]+)/gm ";$1$2-=1" 
 
-replace /for\(int\s(\S+?)=(.+?);\1<(.+?);\1+=1\)/ "for $1 in range($2,$3)"
+#Semicolon For loops
+replace /for\((?:int\s)?(\S+?)=(.+?);\1<=(.+?);\1\+=1\)/g "for $1 in range($2,int($3+1))"
+replace /for\((?:int\s)?(\S+?)=(.+?);\1<(.+?);\1\+=1\)/g "for $1 in range($2,$3)"
+replace /for\((?:[a-z]+\s)?(\S+?)=(.+?);\1<=(.+?);\1\+=(.+)\)/g "for $1 in range($2,int($3+1),$4)"
+replace /for\((?:[a-z]+\s)?(\S+?)=(.+?);\1<(.+?);\1\+=(.+)\)/g "for $1 in range($2,$3,$4)"
+
+#For Each loops
+replace /for\([a-z]+ (\S+):(\S+)\)/ "for $1 in $2"
+
+
+#Do-While Loops
+replace /do\{(.+?)\}while\((.+?)\);/ "while(true){$1if(!$2){break;}}"
+
+#Doubled up declarations
+while /./ replace /((?:(?:int)|(?:short)|(?:long)|(?:byte)|(?:string)|(?:char)|(?:double)|(?:float))) (\S+?),\s?(.+);/ "$1 $2;$1 $3;"
 
 #Input Output 
 replace /cout<<(.+?);/g "print($1);" 
-replace /cin>>(.+?);/g "input($1);" 
-replace /(<<)|(>>)/ ","
+replace /<</g ","
+replace /cin>>(.+?);/g "$1 = input();" 
+replace />>/g " = input();"
+replace /,?\bendl\b/g
 
-#Recursively tabulate all nested blocks 
-while /^(\t*)(.+?)\{/m replace /^(\t*)(.+?)\{/gm "$1$2:\n\t$1" 
-while /^(\t*)\t(.+?)\}/m replace /^(\t*)\t(.+?)\}/gm "$1\t$2\n$1" 
+#If an inputted value is marked as an integer type, interpret it as such
+while /./ replace /(?:(?:int)|(?:short)|(?:long)|(?:byte)) (\S+)([^\x05]+)\1 = input\(\)/gm "$1$2$1 = int(input())"
 
-#Expand code back onto multiple lines 
-while /^(\t*)(.+?(?:;))+$/m replace /^(\t*)(.+?);(.+)$/m "$1$2\n$1$3"
+#If an inputted value is marked as an float type, interpret it as such
+while /./ replace /(?:(?:double)|(?:float)) (\S+)([^\x05]+)\1 = input\(\)/gm "$1$2$1 = float(input())"
+
+#If a variable is a char, and later we want an ASCII Value, fix ord()
+while /./ replace /\bchar (\S+(?:=.+?)?)(;.+)int\(\1\)/g "char $1$2ord($1)"
+
+#Expand code back onto as many lines as possible
+replace /([{}])/g "\n$1\n"?:
+replace /;/g ";\n"
+
+#Delete blank lines
+replace /^\n/gm
+
+#Tabulate
+while /./ tab /^{(\n[^}].+)+\n}/m
+
+#Delete curly braces
+replace /\n.*{$/gm ":"
+replace /\n.*}/g
+
+#replace single-line control structures
+replace /^(\s*)if\((.+?)\)([^:]+?)$/gm "$1if $2:\n$1\t$3"
+replace /^(\s*)else([^{].+?);/gm "$1else:\n\t$1$2;"
+
+#fix else if
+replace /else if/g "elif"
+
+#fix symbolized boolean operators
+replace /&&/gm " and "
+replace /\|\|/gm " or "
+replace /^([^"]+)!([^=])/gm "$1not $2"
+
+#remove semicolons
+replace /;/g
+
+#remove spaces from start of line
+replace /^(\t*) +/gm "$1" 
 
 #Start functions with def 
-replace /^.+?([a-z]+)\((.*)\):$/gm "def $1($2):" 
+#Make non-function blocks distinct
+replace /for.+$/gm "?~$&"
+replace /while.+$/gm "?~$&"
+replace /if.+$/gm "?~$&"
+
+#Translate into def
+replace /^[^?\n]+?([A-Za-z]+)\((.*)\):$/gm "def $1($2):" 
+
+#Fix non-function blocks
+replace /\?~(.+)$/gm "$1"
+
+#Make sure float and double definitions include a decimal point
+replace /^(\t*double .+\d+)$/gm "$1.0"
+replace /^(\t*float .+\d+)$/gm "$1.0"
+
+#replace variable definitions to remove types and doubling up
+
+replace /unsigned /g
+
+#long and short can be prefixes for other data types like long int, so do it first, and do it twice
+replace /^(\t*)long (?=.+\d+(\.\d+)?$)/gm "$1"
+replace /^(\t*)short (?=.+\d+(\.\d+)?$)/gm "$1"
+replace /^(\t*)long (?=.+\d+$)/gm "$1"
+replace /^(\t*)short (?=.+\d+$)/gm "$1"
+replace /^(\t*)int (?=.+\d+$)/gm "$1"
+replace /^(\t*)double (?=.+\d+(\.\d+)?$)/gm "$1"
+replace /^(\t*)float (?=.+\d+(\.\d+)?$)/gm "$1"
+replace /^(\t*)bool (\S+)=true/gm "$1$2 = True"
+replace /^(\t*)bool (\S+)=false/gm "$1$2 = False"
+
+replace /,(?=.+\b\d+$)/gm "=" #doubling up
+
+replace /true/g "True"
+replace /false/g "False"
+
+#delete function prototypes
+replace /.+\([^"'\n]*[a-z]+ \S+.*\)(?!:)/g 
+    #specifically, this targets parentheses with two non-string-literal tokens in a row, separated only by a space, then the line can't end with a colon
+
+#fix datatypes in function definitions
+replace /^([^"\n]+)((?:int)|(?:double)|(?:float)|(?:long)|(?:short)|(?:bool)) (?=[a-z])/mg "$1"
+
+#save return, break and continue statements from destruction
+replace /return/g "~return"
+replace /break/g "~break"
+replace /continue/g "~continue"
+
+#delete non-defining declarations, python doesn't want those
+replace /^[^~+\-\/*=()}{:]+\n/gm
+
+#make returns usable again
+replace /(\t*)~/g "$1"
+
+#Fix integer division to stay integer division
+while /./ replace /^(\t*)(\S+)( = int\([^\x05]+?)^(\t*)(\S+)( = int\([^\x05]+?[^?])(?:(\2\/\5)|(\5\/\2))/gm "$1$2$3$4$5$6int(?$7$8)"
+replace /\(\?/g "("
+while /./ replace /(\S+)( = int\([^\x05]+)\1\/=(.+)/g "$1$2$1=int($1/$3)"
+
+#Fix increments from single-line else
+replace /^(\s*)\+\=1(\w+)/gm "$1$2+=1"
+
+#call the main function if it exists
+if /def main\(\):/ replace /[\t ]*$/ "\nmain()"
+
+#ternary operator
+replace /==/ "~"
+replace /([()\w\s><~]+)\?(.+):(.+)/ "$2 if $1 else $3"
+replace /~/ "=="
+
+#known functions
+replace /.+sizeof\(((?:int)|(?:double)|(?:float)|(?:long)|(?:short)|(?:bool)|(?:char)|(?:string)).+/g "$& \#sizeof() for data types not supported in Python"
+replace /sizeof\(([^)]+\)[^\#]+\n)/g "sys.getsizeof($1"
+replace /\bsqrt\(/g "math.sqrt("
+
+#libraries for known functions
+if /\bsys\./ replace /^/ "import sys\n"
+if /\bmath\./ replace /^/ "import math\n"

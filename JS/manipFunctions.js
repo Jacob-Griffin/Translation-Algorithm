@@ -37,6 +37,28 @@ function smolList(input,pattern,flags,output){
   }
 }
 
+function smolTab(input,pattern,flags,output){
+  if(flags.indexOf("g")>-1){
+    var sections = input.match(new RegExp(pattern,flags));
+    if(sections === null) return input;
+
+    for(i in sections){
+      var section = i[0]; //Grab the section we're tabbing
+      section = section.replace(/^/gm,"\t");   //Add the tab to the beginning of each line
+      input = input.replace(new RegExp(pattern,flags),section); //replace the section we selected with our new tabulated section
+    }
+  }
+  else{
+    var selection = input.match(new RegExp(pattern,flags)); //Grab the section we're tabbing
+    if(selection === null) return input; //If there was no match, return the original input
+    else section = selection[0];
+    section = section.replace(/^/gm,"\t");   //Add the tab to the beginning of each line
+    input = input.replace(new RegExp(pattern,flags),section); //replace the section we selected with our new tabulated section
+  }
+  
+  return input;
+}
+
 function matchGroups(groupList,output){
   var tempOutput = output;
   for(let i = 0; i < groupList.length; i++){

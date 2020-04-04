@@ -10,6 +10,7 @@ function rowsToTable(smolData) {
   var table = [];
   for (let i = 0; i < rows.length; i++) {
     var line = rows[i];
+    if(line == "#!end") break;
     line = line.replace(/\/\//,"/?/"); //replace empty regexes to simplify code matching
     line = line.replace(/\"\"/,"");    //delete empty output strings
     line = line.trim();
@@ -21,6 +22,7 @@ function rowsToTable(smolData) {
         var regex = commands[2];
         var flags = commands[3];
         var commands = line.match(/([a-z]+)\s+\/(.*?[^\\])\/([a-z]*)\s*/);
+        line = line.replace(/([a-z]+)\s+\/(.*?[^\\])\/([a-z]*)\s*/,"");
         var control = false; //This gets checked later to see if conditionals exist
         var condition = false;
         var cflags = false;
@@ -120,6 +122,14 @@ function doTransform(code, row) {
   else if (row["Method"] === "reverse" && doExecution) {
     if (code != smolReverse(code, row["Pattern"], row["Flags"], row["Output"])) {
       code = smolReverse(code, row["Pattern"], row["Flags"], row["Output"])
+    }
+    else {
+      loop = false;
+    }
+  }
+  else if (row["Method"] === "tab" && doExecution) {
+    if (code != smolTab(code, row["Pattern"], row["Flags"], row["Output"])) {
+      code = smolTab(code, row["Pattern"], row["Flags"], row["Output"])
     }
     else {
       loop = false;

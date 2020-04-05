@@ -1,0 +1,13 @@
+#!title:Skip and Resume Example
+
+replace /o/gi "0"
+replace /i/gi "1"
+
+#!skip     #After this point, lines are skipped
+
+replace /a/gi "4"
+replace /t/gi "7"
+
+#!resume   #After this point, lines are no longer skipped
+
+replace /e/gi "3"

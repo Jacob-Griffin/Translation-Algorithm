@@ -1,0 +1,9 @@
+#!title:Tab Example
+
+# Tab tabulates each line of the selection
+
+tab /{[^\x05]+}/ #Tabs everything between the curly braces. 
+
+#[^\x05] is used instead of . because firefox doesn't support dotall (s). \x05 is a system character that cannot be typed normally
+
+tab /<li>.+<\/li>/g #individually selects list items and adds a tab

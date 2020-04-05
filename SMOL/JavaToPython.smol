@@ -1,7 +1,87 @@
-###############################
-#!title:C++ToPython
-###############################
+#####################
+#!title:JavaToPython
+#####################
 
+##### THIS IS COPIED FROM JAVA TO C++, THEN C++ TO PYTHON
+##### EDIT THOSE FILES, THEN UPDATE THIS ONE LATER
+
+#Operators are the same
+#Format is the same, but remove 
+
+#Clean up format to ensure proper bracket nesting
+replace /^[\t ]+/gm
+replace /[{}]/g "\n$&\n"
+replace /^\n/gm "~n\n"
+while /./ tab /^{(\n[^}].+)+\n\}/m
+replace /~n/g
+
+#Remove imports, we'll decide what we need later
+replace /import.+;\n/g
+replace /((?:public)|(?:private)|(?:protected)) class/g "class"
+replace /}(?=(\s*$)|([^\x05]+class))/ "};"
+#Make public private and protected into class scopes instead of keywords
+if /class/ replace /((public)|(private)|(protected))/g "$1:"
+
+###################  Known Functions  #######################
+
+#output
+replace /System\.out\.println\((.+)\)/g "cout << $1 << endl"
+replace /System\.out\.print\((.+)\)/g "cout << $1"
+replace /System\.out\.printf/ "printf"
+while /./ replace /(cout(?: << (?:(?:".+")|(?:[^"\n]+)))+) \+/ "$1 <<"
+
+#input
+replace /([^\s=]+)\s*=\s*(\S+)\.next[A-Z][a-zA-Z]+\(\)/g "$1;\ncin >> $1"
+replace /Scanner \S+\s*=.+/g
+
+##################  Indentation Fixes  ######################
+
+#fix indentation around lines that aren't block ends
+replace /(\t+)([^}\n]+\n)(?!\1)/g "$1$2$1"
+
+#fix indentation of {}
+replace /\t(\t*)(.*\n)\t+\}/g "\t$1$2$1}"
+replace /(\t(\t*))\{\n\1/g "$2{\n$1"
+
+####################  Dependencies   #########################
+
+#remove need for std::
+replace /^/ "using namespace std;\n"
+
+#libraries used
+if /(cin)|(cout)/ replace /^/ "\#include <iostream>\n"
+
+###################  Miscellaneous   #########################
+
+#turn main into C++ standard, move it to the end of the code and out of any classes
+replace /public: static void main\(String\[\] args\)\s*\n(\t*)\{([^\x05]+)\1\}/ "\tint main()\n$1{$2$1\treturn 0;\n$1}"
+replace /(\t*)(.+)(int main())/ "$1$2\n$1$3"\\
+replace /$/ "\n"
+swap /(\t*)int main\(\)\n\1\{[^\x05]+\1\}/ with /$/
+
+#Delete empty classes
+replace /class.+\n\{[^;(){}]+\};/
+
+
+#if main uses static functions from somewhere else in the code (likely the class it came from), add class:: to the function call
+#while /./ gets 
+while /./ replace /(class )(\S+)(\s*\n{[^\x05]+[a-z]+: static [a-zA-Z]+ )(\S+)(\([^\x05]+int main\(\)[^\x05]+)[\s=]\4\(/ "$1$2$3$4$5$2::$4("
+
+#Detab main as much as possible
+while /\t+int main\(\)/ detab /(\t+)int main\(\)[^\x05]+\1\}/
+
+#Put starting braces on their parent statement's line
+replace /\n\t*\{/g "{"
+
+#Remove whitespace from empty lines
+replace /^\s+$/gm
+
+#Remove extraneous newlines (2 or more empty lines in a row)
+replace /\n{2,}/ "\n"
+
+##########################################
+# C++ to Python Part
+##########################################
 
 #Remove libraries 
 replace /\#include.+$/gm 

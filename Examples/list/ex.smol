@@ -1,0 +1,4 @@
+#!title:List Example
+
+# List creates an output string for all matches, then concatenates them
+list /<h1>(.+?)<\/h1>/g "$1\n"

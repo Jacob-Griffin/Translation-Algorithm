@@ -61,7 +61,8 @@
           </div>
           <div id="listText" class="collapse" aria-labelledby="headingList" data-parent="#expressionAccordion">
             <div class="card-body bg-dark">
-              Lists all matches of the provided pattern, then concatenates all output strings. Unmatched text is ommitted from the final result. Capture groups can be used in the output string using $(1-99), and the full match can be used with the token '$0'.
+              Lists all matches of the provided pattern, then concatenates all output strings. Unmatched text is ommitted from the final result. Capture groups can be used in the output string using $(1-99), and the full match can be used with the token '$0'.<br>
+              <a href="/editor/?ex=list" target="_blank">Example</a>
             </div>
           </div>
         </div>
@@ -74,7 +75,22 @@
           </div>
           <div id="reverseText" class="collapse" aria-labelledby="headingReverse" data-parent="#expressionAccordion">
             <div class="card-body bg-dark">
-              Replaces all matches with the reverse of said match. Output string will be ignored.
+              Replaces all matches with the reverse of said match. Output string will be ignored.<br>
+              <a href="/editor/?ex=reverse" target="_blank">Example</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-toggle="collapse" data-target="#tabText" aria-expanded="false" aria-controls="tabText">
+          <div class="card-header" id="headingTab">
+            <h4 class="mb-0">
+              tab
+            </h4>
+          </div>
+          <div id="tabText" class="collapse" aria-labelledby="headingTab" data-parent="#expressionAccordion">
+            <div class="card-body bg-dark">
+              Adds a tab to the beginning of each new line in the selection.<br>
+              <a href="/editor/?ex=tab" target="_blank">Example</a>
             </div>
           </div>
         </div>
@@ -104,7 +120,8 @@
           </div>
           <div id="whileText" class="collapse" aria-labelledby="headingWhile" data-parent="#controlAccordion">
             <div class="card-body bg-dark">
-              Continuously does the rest of the expression until [condition] doesn't generate a match, or until the text stops changing.
+              Continuously does the rest of the expression until [condition] doesn't generate a match, or until the text stops changing.<br>
+              <a href="/editor/?ex=while" target="_blank">Example</a>
             </div>
           </div>
         </div>
@@ -112,7 +129,7 @@
       <h2>Comments</h2>
       <p>Comments start with '#' and continue to the end of the line.</p>
       <h2>Metadata</h2>
-      <p>Metadata values have no influence on the string manipulation, but help with other formatting situations. There is only one metadata value currently:</p>
+      <p>Metadata values have no influence on the string manipulation, but help with other formatting situations or debugging.</p>
       <div id="metadataAccordion">
         <div class="card" data-toggle="collapse" data-target="#titleText" aria-expanded="true" aria-controls="titleText">
           <div class="card-header" id="headingTitle">
@@ -124,6 +141,51 @@
           <div id="titleText" class="collapse" aria-labelledby="headingTitle" data-parent="#metadataAccordion">
             <div class="card-body bg-dark">
               Stores the name of the SMOL table. Serves as the filename when downloading and uploading from the editor, and the function name when compiling to a JavaScript file.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-toggle="collapse" data-target="#endText" aria-expanded="true" aria-controls="endText">
+          <div class="card-header" id="headingEnd">
+            <h4 class="mb-0">
+              end
+            </h4>
+          </div>
+
+          <div id="endText" class="collapse" aria-labelledby="headingEnd" data-parent="#metadataAccordion">
+            <div class="card-body bg-dark">
+              Stop executing the current table. Does not require a value.<br>
+              <a href="/editor/?ex=end" target="_blank">Example</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-toggle="collapse" data-target="#skipText" aria-expanded="true" aria-controls="skipText">
+          <div class="card-header" id="headingSkip">
+            <h4 class="mb-0">
+              skip
+            </h4>
+          </div>
+
+          <div id="skipText" class="collapse" aria-labelledby="headingSkip" data-parent="#metadataAccordion">
+            <div class="card-body bg-dark">
+              Skip lines until the #!resume statement. Acts sort of like a multi-line comment.<br>
+              <a href="/editor/?ex=skip-resume" target="_blank">Example</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" data-toggle="collapse" data-target="#resumeText" aria-expanded="true" aria-controls="resumeText">
+          <div class="card-header" id="headingResume">
+            <h4 class="mb-0">
+              resume
+            </h4>
+          </div>
+
+          <div id="resumeText" class="collapse" aria-labelledby="headingResume" data-parent="#metadataAccordion">
+            <div class="card-body bg-dark">
+              Continues execution after a skip statement.<br>
+              <a href="/editor/?ex=skip-resume" target="_blank">Example</a>
             </div>
           </div>
         </div>

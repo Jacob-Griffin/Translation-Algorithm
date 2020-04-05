@@ -1,0 +1,7 @@
+THIS MEANS DO IT
+switch this
+
+def main():
+	n = float(input())
+	n = math.sqrt(n)
+	print("The square root is",n)

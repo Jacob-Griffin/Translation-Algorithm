@@ -1,0 +1,6 @@
+#title:Reverse Example
+
+# Reverse takes a selection, then replaces it with the reversed string
+
+reverse /\d+/g #Reverses Numbers
+reverse /reverse this/ #specifically reverses the phrase "reverse this"

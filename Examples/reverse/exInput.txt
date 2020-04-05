@@ -1,0 +1,4 @@
+12345
+reverse this
+This text will not be reversed
+this is text, reverse this number -> 92374

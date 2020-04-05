@@ -57,4 +57,9 @@ function changeLang(which){
   var selectorId = which.id;
   var editorId = (selectorId == "langFrom")?"CodeEditor":"CodeOutput";
   ace.edit(editorId).session.setMode("ace/mode/"+languageModes[which.value]);
+
+	var source = (selectorId == "langFrom")?which.value:document.getElementById("langFrom").value;
+  var dest = (selectorId == "langTo")?which.value:document.getElementById("langTo").value;
+	var editorLink = "/editor/?tu="+source+"To"+dest;
+	document.getElementById("editTableBtn").setAttribute("onclick","window.open('"+editorLink+"', '_blank')");
 }

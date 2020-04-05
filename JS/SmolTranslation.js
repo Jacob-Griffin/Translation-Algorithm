@@ -4,13 +4,21 @@ function translateText(smolData, inputText) {
 }
 
 function rowsToTable(smolData) {
-  smolData = smolData.replace(/^(.+?[^\\])#.+$/gm, "$1");    //Remove after-line comments
+  smolData = smolData.replace(/^(.+?[^\\\n])#.+$/gm, "$1");    //Remove after-line comments
   smolData = smolData.replace(/\\#/g, "#");                  //Unescape Escaped #
-  var rows = smolData.split("\n");                          //Separate into lines
+  var rows = smolData.split("\n");                           //Separate into lines
   var table = [];
+  var skipping = false;
   for (let i = 0; i < rows.length; i++) {
     var line = rows[i];
-    if(line == "#!end") break;
+    
+    if(line.startsWith("#!skip")){
+      skipping = true;
+      continue;
+    }
+    if(line.startsWith("#!resume")) skipping = false;
+    if(line.startsWith("#!end")) break;
+    if(skipping) continue;
     line = line.replace(/\/\//,"/?/"); //replace empty regexes to simplify code matching
     line = line.replace(/\"\"/,"");    //delete empty output strings
     line = line.trim();
@@ -38,6 +46,11 @@ function rowsToTable(smolData) {
         if(/"(.*?[^\\])"/.test(line)){
           output = line.match(/"(.*?[^\\])"/)[1];
         }
+        //Fix the empty regex formatting from earlier
+        regex = regex.replace(/\/\?\//,"//");
+        if(condition) condition = condition.replace(/\/\?\//,"//");
+
+
         var rowJSON = { "Control": control, "Method": method, "Pattern": regex, "Flags": flags, "Output": output, "Condition": condition, "CFlags": cflags };
         table.push(rowJSON);
       }
@@ -67,6 +80,7 @@ function validatePattern(regexPattern) {
     }
     if (regexPattern[i] == ")") {
       validationArray[1] += 1;
+      //If at any point there are more closing parentheses than opening ones, stop counting because mismatch
       if (validationArray[1] > validationArray[0]) break;
     }
     if (regexPattern[i] == "[") {
@@ -102,6 +116,14 @@ function doTransform(code, row) {
       loop = true;              //Read the same line again next time
     }
   }
+	if (row["Control"] === "swap" && doExecution){
+		if (code != smolSwap(code, row["Condition"], row["CFlags"], row["Pattern"], row["Flags"], row["Output"])) {
+      code = smolSwap(code, row["Condition"], row["CFlags"], row["Pattern"], row["Flags"], row["Output"])
+    }
+    else {
+      loop = false;
+    }
+	}
   if (row["Method"] === "replace" && doExecution) {
     // If the code is going to change, change it, otherwise, make sure you don't loop, or else infinite looping
     if (code != smolReplace(code, row["Pattern"], row["Flags"], row["Output"])) {
@@ -130,6 +152,14 @@ function doTransform(code, row) {
   else if (row["Method"] === "tab" && doExecution) {
     if (code != smolTab(code, row["Pattern"], row["Flags"], row["Output"])) {
       code = smolTab(code, row["Pattern"], row["Flags"], row["Output"])
+    }
+    else {
+      loop = false;
+    }
+  }
+	else if (row["Method"] === "detab" && doExecution) {
+    if (code != smolDetab(code, row["Pattern"], row["Flags"], row["Output"])) {
+      code = smolDetab(code, row["Pattern"], row["Flags"], row["Output"])
     }
     else {
       loop = false;

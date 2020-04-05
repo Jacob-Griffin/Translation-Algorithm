@@ -1,0 +1,9 @@
+#!title:While Example
+
+# While there continues to be a match for the first regex, keep executing the line
+while /h/ replace /[a-z]/ "0" #keep turning lower case letters into 0 until there are no h's
+
+#Keep in mind that while loops will also end if the string manages to not change. This is to prevent infinite loops.
+
+#Practical example: Recursive tabulating, used in my python translation. This cannot be handled by a g tag because there are selections within selections
+while /./ tab /^{(\n[^}].+)+\n}/m

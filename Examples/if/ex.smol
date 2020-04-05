@@ -1,0 +1,7 @@
+#!title:If Example
+
+#If any match exists fort the first regex, execute the rest of the line
+if /THIS MEANS DO IT/ replace /switch this/ "this is switched"
+
+# Practical example from the python translations. If a known function is used, add the library at the top of the code
+if /math\.sqrt\(\)/ replace /^/ "import math\n" 

@@ -1,0 +1,14 @@
+0000000 0000000 00 0 and some more
+
+main()
+	{
+	line 1
+	if(condition 1)
+		{
+		for(int i; i<10; i++)
+			{
+			line 2
+			}
+		}
+	return 0
+	}

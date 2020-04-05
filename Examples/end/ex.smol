@@ -1,0 +1,9 @@
+#!title:End Example
+
+#End completely stops all SMOL execution beyond that point
+
+replace /hello/i "goodbye" #This line does get executed
+#!end
+replace /world/i "everybody" #This line does not
+
+In fact, the rest of the text gets skipped, so the bottom of the code can be full of syntax-errors and non-code

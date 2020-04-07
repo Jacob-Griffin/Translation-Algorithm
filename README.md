@@ -2,12 +2,13 @@
 Translates code from one programming language to another. Due to the intended scal of this project, only a few programming languages were selected, and only the essential features of each language were accounted for. Though this project is a web application, I intentionally omitted a server-side language to make it as accessible as possible for download and editing, and potentially for a desktop application.
 
 ### Current Support
-
-### Support in progress
-
+Though somewhat limited:
 C++ to Python
-
 Java to C++
+Java to Python
+All languages to themselves
+
+### Support "in progress"
 
 Java to English*
 

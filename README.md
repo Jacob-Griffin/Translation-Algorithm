@@ -3,10 +3,10 @@ Translates code from one programming language to another. Due to the intended sc
 
 ### Current Support
 Though somewhat limited:
-C++ to Python
-Java to C++
-Java to Python
-All languages to themselves
+- C++ to Python
+- Java to C++
+- Java to Python
+- All languages to themselves
 
 ### Support "in progress"
 
